@@ -431,7 +431,7 @@
             <tbody id="ranking-body"></tbody>
           </table>
         </div>
-        <p class="ranking-footnote">榜单数值直接取自官网 DataFactory 的 cards 字段。当前口径中，两黄变红球员记2张黄牌、1次两黄罚下和1张红牌；浅黄色行表示该球员有两黄罚下记录。</p>
+        <p class="ranking-footnote">黄牌榜以官网 DataFactory 的 cards 字段为基础；由于该接口只返回当前靠前球员，红牌榜会用官网逐场 <code>redByDoubleYellowCard</code> 事件补齐被截断的两黄罚下球员。两黄变红记2张黄牌、1次两黄罚下和1张红牌；浅黄色行表示该球员有两黄罚下记录。</p>
       </section>
 
       <section aria-labelledby="matches-title">
@@ -658,7 +658,7 @@
             <span class="ranking-player">${escapeHtml(row.name)}</span>
             <span class="ranking-team">${escapeHtml(row.team)}<span class="ranking-player-id"> · Player ${escapeHtml(row.playerId)}</span></span>
           </td>
-          <td><span class="ranking-value ${activeRanking === "yellow" ? "primary" : ""}">${escapeHtml(row.yellow)}</span></td>
+          <td><span class="ranking-value ${activeRanking === "yellow" ? "primary" : ""}">${row.yellowIsMinimum ? "≥" : ""}${escapeHtml(row.yellow)}</span></td>
           <td>${Number(row.doubleYellow) > 0 ? `<span class="double-yellow-note">${escapeHtml(row.doubleYellow)} 次</span>` : "-"}</td>
           <td><span class="ranking-value ${activeRanking === "red" ? "primary" : ""}">${escapeHtml(row.red)}</span></td>
         </tr>`).join("") : '<tr><td colspan="5">官网牌榜暂时没有可显示的数据。</td></tr>';
